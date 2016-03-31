@@ -118,45 +118,46 @@ alpha0 = calculate_alpha(l0, s, a, p, b, beta, h0);
 x       = 0;
 y       = 0;
 z       = 0;
-roll    = 0;
-pitch   = 0;
-yaw     = 0;
-alpha = kinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw);
+roll    = 10;
+pitch   = 10;
+yaw     = 10;
+alpha = kinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw)
+alpha2 = arduinoKinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw)
 
-%% calculate the range of motion in home each direction
-max_x = 0;
-max_y = 0;
-max_z = 0;
-max_roll = 0;
-max_pitch = 0;
-max_yaw = 0;
-alpha = [0 0 0 0 0 0];
-while(imag(alpha) == zeros(1,6))
-    max_x = max_x + 0.01;
-    alpha = kinematics(b, p, s, a, beta, h0, max_x, 0, 0, 0, 0, 0);
-end
-max_x = max_x - 0.01;
-alpha = [0 0 0 0 0 0];
-while(imag(alpha) == zeros(1,6))
-    max_y = max_y + 0.01;
-    alpha = kinematics(b, p, s, a, beta, h0, 0, max_y, 0, 0, 0, 0);
-end
-max_y = max_y - 0.01;
-alpha = [0 0 0 0 0 0];
-while(imag(alpha) == zeros(1,6))
-    max_z = max_z + 0.01;
-    alpha = kinematics(b, p, s, a, beta, h0, 0, 0, max_z, 0, 0, 0);
-end
-max_z = max_z - 0.01;
-alpha = [0 0 0 0 0 0];
-while(imag(alpha) == zeros(1,6))
-    max_roll = max_roll + 0.01;
-    alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, max_roll, 0, 0);
-end
-max_roll = max_roll - 0.01;
-alpha = [0 0 0 0 0 0];
-while(imag(alpha) == zeros(1,6))
-    max_pitch = max_pitch + 0.01;
-    alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, 0, max_pitch, 0);
-end
-max_pitch = max_pitch - 0.01;
+% %% calculate the range of motion in home each direction
+% max_x = 0;
+% max_y = 0;
+% max_z = 0;
+% max_roll = 0;
+% max_pitch = 0;
+% max_yaw = 0;
+% alpha = [0 0 0 0 0 0];
+% while(imag(alpha) == zeros(1,6))
+%     max_x = max_x + 0.01;
+%     alpha = kinematics(b, p, s, a, beta, h0, max_x, 0, 0, 0, 0, 0);
+% end
+% max_x = max_x - 0.01;
+% alpha = [0 0 0 0 0 0];
+% while(imag(alpha) == zeros(1,6))
+%     max_y = max_y + 0.01;
+%     alpha = kinematics(b, p, s, a, beta, h0, 0, max_y, 0, 0, 0, 0);
+% end
+% max_y = max_y - 0.01;
+% alpha = [0 0 0 0 0 0];
+% while(imag(alpha) == zeros(1,6))
+%     max_z = max_z + 0.01;
+%     alpha = kinematics(b, p, s, a, beta, h0, 0, 0, max_z, 0, 0, 0);
+% end
+% max_z = max_z - 0.01;
+% alpha = [0 0 0 0 0 0];
+% while(imag(alpha) == zeros(1,6))
+%     max_roll = max_roll + 0.01;
+%     alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, max_roll, 0, 0);
+% end
+% max_roll = max_roll - 0.01;
+% alpha = [0 0 0 0 0 0];
+% while(imag(alpha) == zeros(1,6))
+%     max_pitch = max_pitch + 0.01;
+%     alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, 0, max_pitch, 0);
+% end
+% max_pitch = max_pitch - 0.01;
