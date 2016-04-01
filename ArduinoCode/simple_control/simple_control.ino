@@ -37,7 +37,7 @@ void setup()
   {
     angles[i] = -0.0464253166312861;
   }
-  
+  moveAllServos();
   Serial.begin(115200);
 }
 
@@ -48,6 +48,7 @@ void loop()
     receiveBytes();
     getServoAngles(commands[0], commands[1], commands[2], commands[3], commands[4], commands[5]);
     printVector(&angles[0], 6);
+    moveAllServos();
   }
 }
 
@@ -57,12 +58,12 @@ void loop()
  */
 void moveAllServos()
 {
-  servo1.write(angles[0]);
-  servo2.write(angles[1]);
-  servo3.write(angles[2]);
-  servo4.write(angles[3]);
-  servo5.write(angles[4]);
-  servo6.write(angles[5]);
+  servo1.write((-angles[0]*180/PI)+85);
+  servo2.write((angles[1]*180/PI)+75);
+  servo3.write((-angles[2]*180/PI)+100);
+  servo4.write((angles[3]*180/PI)+90);
+  servo5.write((-angles[4]*180/PI)+85);
+  servo6.write((angles[5]*180/PI)+90);
 }
 
 /**************************************************************

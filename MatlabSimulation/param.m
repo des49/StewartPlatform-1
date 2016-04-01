@@ -32,12 +32,12 @@ R = R_z*R_y*R_x;
 T = [x y z]';
 
 % define known constants of the system
-s    = 4.000;                  % inches: length of arm connecting servo arm and platform
-a    = 0.625;                  % inches: length of servo arm from center of rotation to connection rod pivot point
-radius_base = 1.250;        % inches: radius of the circle that determines location of base servos centers
-angle_base  = 100*pi/180;   % radians: angle between servo locations on base on any given side of the triangular mount
-radius_plat = 0.85;        % inches: radius of the circle that determines mounting location on platform 
-angle_plat  = 20*pi/180;    % radians: angle between mounting locations on platform
+s    = 4.000;                   % inches: length of arm connecting servo arm and platform
+a    = 0.625;                   % inches: length of servo arm from center of rotation to connection rod pivot point
+radius_base = 1.250;            % inches: radius of the circle that determines location of base servos centers
+angle_base  = 100*pi/180;       % radians: angle between servo locations on base on any given side of the triangular mount
+radius_plat = 1.4;              % inches: radius of the circle that determines mounting location on platform 
+angle_plat  = 110*pi/180;       % radians: angle between mounting locations on platform
 beta        = [0, (0)+pi, (120*pi/180), (120*pi/180)+pi, (240*pi/180), (240*pi/180)+pi]';
 
 %% generate servo locations in the base frame
@@ -98,10 +98,10 @@ for i = 1:6
 end
 
 % check the relative locations of the platform and the base
-%     figure()
-%     plot3(b(1,:), b(2,:), b(3,:))
-%     hold on
-%     plot3(q(1,:), q(2,:), q(3,:))
+    figure()
+    plot3(b(1,:), b(2,:), b(3,:))
+    hold on
+    plot3(q(1,:), q(2,:), q(3,:))
 
 %% calculate the effective "leg" lengths at the home position
 % these aren't the real leg lengths "s", they are the length "l" from the
@@ -125,39 +125,39 @@ alpha = kinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw)
 alpha2 = arduinoKinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw)
 
 % %% calculate the range of motion in home each direction
-% max_x = 0;
-% max_y = 0;
-% max_z = 0;
-% max_roll = 0;
-% max_pitch = 0;
-% max_yaw = 0;
-% alpha = [0 0 0 0 0 0];
-% while(imag(alpha) == zeros(1,6))
-%     max_x = max_x + 0.01;
-%     alpha = kinematics(b, p, s, a, beta, h0, max_x, 0, 0, 0, 0, 0);
-% end
-% max_x = max_x - 0.01;
-% alpha = [0 0 0 0 0 0];
-% while(imag(alpha) == zeros(1,6))
-%     max_y = max_y + 0.01;
-%     alpha = kinematics(b, p, s, a, beta, h0, 0, max_y, 0, 0, 0, 0);
-% end
-% max_y = max_y - 0.01;
-% alpha = [0 0 0 0 0 0];
-% while(imag(alpha) == zeros(1,6))
-%     max_z = max_z + 0.01;
-%     alpha = kinematics(b, p, s, a, beta, h0, 0, 0, max_z, 0, 0, 0);
-% end
-% max_z = max_z - 0.01;
-% alpha = [0 0 0 0 0 0];
-% while(imag(alpha) == zeros(1,6))
-%     max_roll = max_roll + 0.01;
-%     alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, max_roll, 0, 0);
-% end
-% max_roll = max_roll - 0.01;
-% alpha = [0 0 0 0 0 0];
-% while(imag(alpha) == zeros(1,6))
-%     max_pitch = max_pitch + 0.01;
-%     alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, 0, max_pitch, 0);
-% end
-% max_pitch = max_pitch - 0.01;
+max_x = 0;
+max_y = 0;
+max_z = 0;
+max_roll = 0;
+max_pitch = 0;
+max_yaw = 0;
+alpha = [0 0 0 0 0 0];
+while(imag(alpha) == zeros(1,6))
+    max_x = max_x + 0.01;
+    alpha = kinematics(b, p, s, a, beta, h0, max_x, 0, 0, 0, 0, 0);
+end
+max_x = max_x - 0.01;
+alpha = [0 0 0 0 0 0];
+while(imag(alpha) == zeros(1,6))
+    max_y = max_y + 0.01;
+    alpha = kinematics(b, p, s, a, beta, h0, 0, max_y, 0, 0, 0, 0);
+end
+max_y = max_y - 0.01;
+alpha = [0 0 0 0 0 0];
+while(imag(alpha) == zeros(1,6))
+    max_z = max_z + 0.01;
+    alpha = kinematics(b, p, s, a, beta, h0, 0, 0, max_z, 0, 0, 0);
+end
+max_z = max_z - 0.01;
+alpha = [0 0 0 0 0 0];
+while(imag(alpha) == zeros(1,6))
+    max_roll = max_roll + 0.01;
+    alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, max_roll, 0, 0);
+end
+max_roll = max_roll - 0.01;
+alpha = [0 0 0 0 0 0];
+while(imag(alpha) == zeros(1,6))
+    max_pitch = max_pitch + 0.01;
+    alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, 0, max_pitch, 0);
+end
+max_pitch = max_pitch - 0.01;
