@@ -6,16 +6,17 @@
         xmlns:local="clr-namespace:StewartPlatformSerialController"
         mc:Ignorable="d"
         Title="MainWindow" Height="750" Width="1000">
-    <Grid>
+    <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Stewart Platform Serial Controller" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Center" FontSize="30" FontFamily="Baskerville Old Face"/>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" ShowGridLines="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -34,10 +35,23 @@
             <Label Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Content="X Translation in inches:" FontFamily="Verdana" FontSize="20"/>
             <Label Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Y Translation in inches:" FontFamily="Verdana" FontSize="20"/>
             <Label Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" Content="Z Translation in inches:" FontFamily="Verdana" FontSize="20"/>
-            <Button Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Margin="25" VerticalAlignment="Bottom" Width="200" Height="75" Content="Send Command" FontSize="20" x:Name="SendButton" Click="SendButton_Click"/>
-            <Button Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,250,25" VerticalAlignment="Bottom" Width="200" Height="75" Content="Close and Quit" FontSize="20" x:Name="QuitButton" Click="QuitButton_Click"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="82,32,0,19" VerticalAlignment="Center" Width="100" x:Name="ComboBoxSerialPorts"/>
-            <Button Grid.Row="0" Grid.Column="1" Width="150" Height="40" Content="Connect" x:Name="ConnectButton" Click="ConnectButton_Click" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button Grid.Row="7" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="75" Content="Send Command" FontSize="20" x:Name="SendButton" Click="SendButton_Click"/>
+            <Button Grid.Row="7" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="200" Height="75" Content="Close and Quit" FontSize="20" x:Name="QuitButton" Click="QuitButton_Click"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" x:Name="ComboBoxSerialPorts" MouseLeftButtonDown="ComboBoxSerialPorts_MouseLeftButtonDown"/>
+            <Button Grid.Row="0" Grid.Column="2" Width="150" Height="40" Content="Connect" x:Name="ConnectButton" Click="ConnectButton_Click" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox Grid.Column="1" Grid.Row="1" x:Name="TextBox_RollAngle" TextChanged="TextBox_RollAngle_TextChanged" Height="30" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" Text="0" FontSize="20"/>
+            <Slider Grid.Column="2" Grid.Row="1" x:Name="Slider_RollAngle" Maximum="20" Minimum="-20" Value="0" ValueChanged="Slider_RollAngle_ValueChanged" Margin="20"/>
+            <TextBox Grid.Column="1" Grid.Row="2" x:Name="TextBox_PitchAngle" TextChanged="TextBox_PitchAngle_TextChanged" Height="30" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" Text="0" FontSize="20"/>
+            <Slider Grid.Column="2" Grid.Row="2" x:Name="Slider_PitchAngle" Maximum="20" Minimum="-20" Value="0" ValueChanged="Slider_PitchAngle_ValueChanged" Margin="20"/>
+            <TextBox Grid.Column="1" Grid.Row="3" x:Name="TextBox_YawAngle" TextChanged="TextBox_YawAngle_TextChanged" Height="30" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" Text="0" FontSize="20"/>
+            <Slider Grid.Column="2" Grid.Row="3" x:Name="Slider_YawAngle" Maximum="20" Minimum="-20" Value="0" ValueChanged="Slider_YawAngle_ValueChanged" Margin="20"/>
+            <TextBox Grid.Column="1" Grid.Row="4" x:Name="TextBox_XTranslation" TextChanged="TextBox_XTranslation_TextChanged" Height="30" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" Text="0" FontSize="20"/>
+            <Slider Grid.Column="2" Grid.Row="4" x:Name="Slider_XTranslation" Maximum="1" Minimum="-1" Value="0" ValueChanged="Slider_XTranslation_ValueChanged" Margin="20"/>
+            <TextBox Grid.Column="1" Grid.Row="5" x:Name="TextBox_YTranslation" TextChanged="TextBox_YTranslation_TextChanged" Height="30" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" Text="0" FontSize="20"/>
+            <Slider Grid.Column="2" Grid.Row="5" x:Name="Slider_YTranslation" Maximum="1" Minimum="-1" Value="0" ValueChanged="Slider_YTranslation_ValueChanged" Margin="20"/>
+            <TextBox Grid.Column="1" Grid.Row="6" x:Name="TextBox_ZTranslation" TextChanged="TextBox_ZTranslation_TextChanged" Height="30" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center" Text="0" FontSize="20"/>
+            <Slider Grid.Column="2" Grid.Row="6" x:Name="Slider_ZTranslation" Maximum="0.5" Minimum="-0.5" Value="0" ValueChanged="Slider_ZTranslation_ValueChanged" Margin="20"/>
+            <CheckBox IsChecked="False" Checked="CheckBox_SendContinuously_Checked" Grid.Column="0" Grid.Row="7" x:Name="CheckBox_SendContinuously" Content="Send Messages Continuously" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
     </Grid>
 </Window>
