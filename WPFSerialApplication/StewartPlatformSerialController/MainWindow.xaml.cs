@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
+using System.Windows.Threading;
 
 namespace StewartPlatformSerialController
 {
@@ -24,13 +25,15 @@ namespace StewartPlatformSerialController
     {
         List<string> availableComPorts = new List<string>();
         SerialPort serialConnection = new SerialPort();
+        string serialWindow = "";
 
         public MainWindow()
         {
             InitializeComponent();
-
+            this.DataContext = this;
             availableComPorts = new List<string>(SerialPort.GetPortNames().ToList());
             ComboBoxSerialPorts.ItemsSource = availableComPorts;
+
         }
 
         private void SendButton_Click(object sender, RoutedEventArgs e)
@@ -53,19 +56,15 @@ namespace StewartPlatformSerialController
             if (serialConnection.IsOpen)
             {
                 serialConnection.Close();
+                ConnectButton.Background = Brushes.Red;
             }
-            if(ComboBoxSerialPorts.SelectedIndex != -1)
+            if (ComboBoxSerialPorts.SelectedIndex != -1)
             {
-                if(serialConnection.PortName != availableComPorts[ComboBoxSerialPorts.SelectedIndex])
-                {
-                    serialConnection.BaudRate = 9600;
-                    serialConnection.PortName = availableComPorts[ComboBoxSerialPorts.SelectedIndex];
-                    serialConnection.Open();
-                }
-                else
-                {
-                    MessageBox.Show("That serial port is already open");
-                }
+                serialConnection.DataReceived += serialConnection_DataReceived;
+                serialConnection.BaudRate = 9600;
+                serialConnection.PortName = availableComPorts[ComboBoxSerialPorts.SelectedIndex];
+                serialConnection.Open();
+                ConnectButton.Background = Brushes.LightGreen;
             }
             else
             {
@@ -75,7 +74,23 @@ namespace StewartPlatformSerialController
 
         private void serialConnection_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-            throw new NotImplementedException();
+            SerialPort sp = (SerialPort)sender;
+            serialWindow += sp.ReadExisting();
+            if (SerialMonitor.Dispatcher.CheckAccess())
+            {
+                // The calling thread owns the dispatcher, and hence the UI element
+                SerialMonitor.Text = serialWindow;
+            }
+            else
+            {
+                // Invokation required
+                SerialMonitor.Dispatcher.Invoke(updateText);
+            }
+        }
+
+        public void updateText()
+        {
+            SerialMonitor.Text = serialWindow;
         }
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
@@ -183,17 +198,17 @@ namespace StewartPlatformSerialController
 
         private void SendMessage()
         {
-            if (serialConnection.IsOpen)
+            if (serialConnection.IsOpen && serialConnection.BytesToWrite == 0)
             {
                 //maybe something like this...?
-                string message = null;
-                message += TextBox_PitchAngle + "\n";
-                message += TextBox_RollAngle + "\n";
-                message += TextBox_YawAngle + "\n";
-                message += TextBox_XTranslation + "\n";
-                message += TextBox_YTranslation + "\n";
-                message += TextBox_ZTranslation;
-                serialConnection.Write(message);
+                byte[] message = new byte[24];
+                Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToSingle(TextBox_RollAngle.Text)), 0, message, 0, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToSingle(TextBox_PitchAngle.Text)), 0, message, 4, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToSingle(TextBox_YawAngle.Text)), 0, message, 8, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToSingle(TextBox_XTranslation.Text)), 0, message, 12, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToSingle(TextBox_YTranslation.Text)), 0, message, 16, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToSingle(TextBox_ZTranslation.Text)), 0, message, 20, 4);
+                serialConnection.Write(message,0,24);
             }
         }
     }

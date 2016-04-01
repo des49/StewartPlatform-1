@@ -5,14 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StewartPlatformSerialController"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1000">
+        Title="MainWindow" Height="650" Width="1500">
     <Grid ShowGridLines="True">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Content="Stewart Platform Serial Controller" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Center" FontSize="30" FontFamily="Baskerville Old Face"/>
-        <Grid Grid.Row="1" ShowGridLines="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1000"/>
+            <ColumnDefinition Width="500"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" Content="Stewart Platform Serial Controller" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Center" FontSize="30" FontFamily="Baskerville Old Face"/>
+        <Grid Grid.Row="1" Grid.Column="0" ShowGridLines="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -53,5 +57,7 @@
             <Slider Grid.Column="2" Grid.Row="6" x:Name="Slider_ZTranslation" Maximum="0.5" Minimum="-0.5" Value="0" ValueChanged="Slider_ZTranslation_ValueChanged" Margin="20"/>
             <CheckBox IsChecked="False" Checked="CheckBox_SendContinuously_Checked" Grid.Column="0" Grid.Row="7" x:Name="CheckBox_SendContinuously" Content="Send Messages Continuously" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
+        <Label Grid.Row="0" Grid.Column="1" Content="Serial Monitor" Margin="10" VerticalAlignment="Stretch" HorizontalAlignment="Center" FontSize="30" FontFamily="Baskerville Old Face"/>
+        <TextBox Grid.Row="1" Grid.Column="1"  Text="{Binding serialWindow}" Margin="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="SerialMonitor" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" />
     </Grid>
 </Window>
