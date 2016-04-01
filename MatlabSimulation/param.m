@@ -115,12 +115,12 @@ end
 alpha0 = calculate_alpha(l0, s, a, p, b, beta, h0);
 
 %% how to calculate the alpha for any position
-x       = 0;
-y       = 0;
-z       = 0;
-roll    = 10;
-pitch   = 10;
-yaw     = 10;
+x       = 0.05;
+y       = -0.064;
+z       = 0.043;
+roll    = 3.684;
+pitch   = -7.226;
+yaw     = 9.209;
 alpha = kinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw)
 alpha2 = arduinoKinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw)
 
