@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO.Ports;
 using System.Windows.Threading;
+using System.Threading;
 
 namespace StewartPlatformSerialController
 {
@@ -61,7 +62,7 @@ namespace StewartPlatformSerialController
             if (ComboBoxSerialPorts.SelectedIndex != -1)
             {
                 serialConnection.DataReceived += serialConnection_DataReceived;
-                serialConnection.BaudRate = 9600;
+                serialConnection.BaudRate = 115200;
                 serialConnection.PortName = availableComPorts[ComboBoxSerialPorts.SelectedIndex];
                 serialConnection.Open();
                 ConnectButton.Background = Brushes.LightGreen;
@@ -209,6 +210,7 @@ namespace StewartPlatformSerialController
                 Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToSingle(TextBox_YTranslation.Text)), 0, message, 16, 4);
                 Buffer.BlockCopy(BitConverter.GetBytes(Convert.ToSingle(TextBox_ZTranslation.Text)), 0, message, 20, 4);
                 serialConnection.Write(message,0,24);
+                Thread.Sleep(20); // 10 seemed safe at the 115200 baud rate, so 20 is REALLY safe
             }
         }
     }

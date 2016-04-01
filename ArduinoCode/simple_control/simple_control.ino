@@ -31,7 +31,7 @@ void setup()
   servo5.attach(10);
   servo6.attach(11);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
 }
 
 void loop() 
@@ -75,23 +75,6 @@ void loop()
     Serial.print("Converts to: ");
     for(i = 0; i<24; i=i+4)
     {
-      //print what you are converting to a float to be sure
-      Serial.print(' ');
-        Serial.print("0x");
-      if (incomingBuffer[i]<0x10)
-        Serial.print("0");
-      Serial.print((byte)incomingBuffer[i], HEX); 
-      if (incomingBuffer[i+1]<0x10)
-        Serial.print("0");
-      Serial.print((byte)incomingBuffer[i+1], HEX);
-      if (incomingBuffer[i+2]<0x10)
-        Serial.print("0");
-      Serial.print((byte)incomingBuffer[i+2], HEX);
-      if (incomingBuffer[i+3]<0x10)
-        Serial.print("0");
-      Serial.print((byte)incomingBuffer[i+3], HEX);
-      Serial.print(" -> ");
-
       byte tempBytes[] = {incomingBuffer[i], incomingBuffer[i+1], incomingBuffer[i+2], incomingBuffer[i+3]};
 
       union {
@@ -100,9 +83,8 @@ void loop()
         } u;
       
       memcpy(u.temp_array, tempBytes, 4);
-      //float converted = (float)((byte)incomingBuffer[i+3] << 12 | (byte)incomingBuffer[i+2] << 8 | (byte)incomingBuffer[i+1] << 4 | (byte)incomingBuffer[i]);
       Serial.print(u.float_variable, DEC);
-      Serial.print("\n");
+      Serial.print(", ");
     }
     Serial.print('\n');
     Serial.print('\n');
