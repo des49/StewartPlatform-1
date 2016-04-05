@@ -1,3 +1,5 @@
+function param
+
 clear;% for calculating the parameters and home positions, we'll let the following be true
 x       = 0;
 y       = 0;
@@ -33,7 +35,7 @@ T = [x y z]';
 
 % define known constants of the system
 s    = 4.000;                   % inches: length of arm connecting servo arm and platform
-a    = 1.0;                   % inches: length of servo arm from center of rotation to connection rod pivot point
+a    = 0.625;                   % inches: length of servo arm from center of rotation to connection rod pivot point
 radius_base = 3.0;            % inches: radius of the circle that determines location of base servos centers
 angle_base  = 70*pi/180;       % radians: angle between servo locations on base on any given side of the triangular mount
 radius_plat = 2.5;              % inches: radius of the circle that determines mounting location on platform 
@@ -102,7 +104,6 @@ P.s = s;
 P.a = a;
 P.h0 = h0;
 P.beta = beta;
-P.dt = 0.01;
 
 %% calculate the vectors from the base frame to the connection points on the platform
 for i = 1:6
@@ -121,25 +122,25 @@ end
 alpha0 = calculate_alpha(l0, s, a, p, b, beta, h0);
 
 %% check the relative locations of the platform and the base
-% drawSystem(b, q, beta, a, alpha0);
-% title('Home Position');
-% 
-% %% how to calculate the alpha for any position
-% x       = 0;
-% y       = 0;
-% z       = 0;
-% roll    = 0;
-% pitch   = 0;
-% yaw     = 0;
-% [alpha, q] = kinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw);
-% [alpha2, q2] = arduinoKinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw);
-% 
-% %% check the relative locations of the platform and the base
-% drawSystem(b, q, beta, a, alpha);
-% title('New Position');
-% 
-% alpha_degrees_from_home = (alpha - alpha0)*180/pi;
-% 
+drawSystem(b, q, beta, a, alpha0);
+title('Home Position');
+
+%% how to calculate the alpha for any position
+x       = 0;
+y       = 0;
+z       = 0;
+roll    = 0;
+pitch   = 0;
+yaw     = 0;
+[alpha, q] = kinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw);
+[alpha2, q2] = arduinoKinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw);
+
+%% check the relative locations of the platform and the base
+drawSystem(b, q, beta, a, alpha);
+title('New Position');
+
+alpha_degrees_from_home = (alpha - alpha0)*180/pi;
+
 %% calculate the range of motion in home each direction
 max_x = 0;
 max_y = 0;
@@ -147,7 +148,6 @@ max_z = 0;
 max_roll = 0;
 max_pitch = 0;
 max_yaw = 0;
-max_combined = 0;
 alpha = [0 0 0 0 0 0];
 while(imag(alpha) == zeros(1,6))
     max_x = max_x + 0.01;
@@ -178,9 +178,3 @@ while(imag(alpha) == zeros(1,6))
     alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, 0, max_pitch, 0);
 end
 max_pitch = max_pitch - 0.01;
-alpha = [0 0 0 0 0 0];
-while(imag(alpha) == zeros(1,6))
-    max_combined = max_combined + 0.01;
-    alpha = kinematics(b, p, s, a, beta, h0, 0, 0, 0, max_combined, max_combined, 0);
-end
-max_combined = max_combined - 0.01;

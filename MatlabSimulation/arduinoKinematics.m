@@ -1,4 +1,4 @@
-function angles_out = arduinoKinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw)    
+function [angles_out, q] = arduinoKinematics(b, p, s, a, beta, h0, x, y, z, roll, pitch, yaw)    
     phi     = roll*pi/180;  % rotation about x_axis
     theta   = pitch*pi/180; % rotation about y_axis
     psi     = yaw*pi/180;   % rotation about z_axis
